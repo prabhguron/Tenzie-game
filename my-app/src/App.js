@@ -12,14 +12,19 @@ export default function App() {
     for (let i = 0; i < 10; i++) {
         newDice.push({
             value: Math.ceil(Math.random() * 6), 
-            isHeld: false,
+            isHeld: true,
             id: nanoid()
         })
     }
     return newDice
 }
 function holdDice(id){
- console.log(id)
+    setDiceArr(prevDice => {
+       return prevDice.map(currentDice => {
+         return currentDice.id === id ? {...currentDice, isHeld: !currentDice.isHeld} : currentDice
+        })
+    })
+
 }
 function rollDice() {
   setDiceArr(allNewDice())
