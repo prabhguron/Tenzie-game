@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Die from "./die";
 import {nanoid} from "nanoid";
 
@@ -6,6 +6,32 @@ import {nanoid} from "nanoid";
 
 export default function App() {
   const [diceArr, setDiceArr] = useState(allNewDice());
+  const [tenzie, setTenzie] = useState(false);
+
+  useEffect(()=> {
+
+  const check = diceArr.every(tenzieTime => {
+    const diceFirstValue = diceArr[0].value
+   return (tenzieTime.isHeld === true && tenzieTime.value === diceFirstValue)
+})  
+
+if(check){
+  setTenzie(prev => prev = true)
+}else{
+  setTenzie(prev => prev = false)
+}
+   
+
+
+    
+
+
+
+  },[diceArr])
+
+if(tenzie === true){
+  console.log("works")
+}
 
 
 function generate(){
