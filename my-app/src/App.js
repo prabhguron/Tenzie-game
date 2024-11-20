@@ -1,37 +1,31 @@
 import React, { useEffect, useState } from "react";
 import Die from "./die";
+import Confetti from "react-confetti";
 import {nanoid} from "nanoid";
 
 
 
 export default function App() {
   const [diceArr, setDiceArr] = useState(allNewDice());
-  const [tenzie, setTenzie] = useState(false);
+  
 
-  useEffect(()=> {
-
+ 
+ 
   const check = diceArr.every(tenzieTime => {
     const diceFirstValue = diceArr[0].value
    return (tenzieTime.isHeld === true && tenzieTime.value === diceFirstValue)
 })  
 
-if(check){
-  setTenzie(prev => prev = true)
-}else{
-  setTenzie(prev => prev = false)
+
+ 
+function refreshPage(){ 
+  window.location.reload(); 
 }
-   
-
-
-    
 
 
 
-  },[diceArr])
 
-if(tenzie === true){
-  console.log("works")
-}
+
 
 
 function generate(){
@@ -72,7 +66,9 @@ const diceElements = diceArr.map(die => (
   return (
     <main>
       <div className="container">{diceElements}</div>
-        <button className="roll" onClick={rollDice}>Roll</button>
+      {check ?  <Confetti/>: ""}
+        <button className="roll" onClick={check?refreshPage:rollDice}>{check ? "New Game":"Roll"}</button>
+    
     </main>
   );
 }
