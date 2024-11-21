@@ -4,11 +4,9 @@ import Confetti from "react-confetti";
 import {nanoid} from "nanoid";
 
 
-
-export default function App() {
-  const [diceArr, setDiceArr] = useState(allNewDice());
   
-
+  export default function App() {
+    const [diceArr, setDiceArr] = useState(() => allNewDice());
  
  
   const check = diceArr.every(tenzieTime => {
@@ -18,9 +16,6 @@ export default function App() {
 
 
  
-function refreshPage(){ 
-  window.location.reload(); 
-}
 
 
 
@@ -52,11 +47,17 @@ function holdDice(id){
 
 }
 function rollDice() {
-  setDiceArr(oldDice => oldDice.map(die => {
+
+  if(!check){
+    setDiceArr(oldDice => oldDice.map(die => {
       return die.isHeld ? 
           die :
           generate()
   }))
+  }else{
+    setDiceArr(allNewDice)
+  }
+ 
 }
 
 
@@ -67,7 +68,7 @@ const diceElements = diceArr.map(die => (
     <main>
       <div className="container">{diceElements}</div>
       {check ?  <Confetti/>: ""}
-        <button className="roll" onClick={check?refreshPage:rollDice}>{check ? "New Game":"Roll"}</button>
+        <button className="roll" onClick={rollDice}>{check ? "New Game":"Roll"}</button>
     
     </main>
   );
